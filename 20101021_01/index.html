@@ -1,0 +1,122 @@
+<!DOVTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>studies | 20101021_01</title>
+
+		<style>
+			html, body {
+				margin: 0; padding: 0;
+				width: 100%; height: 100%;
+				background: #000;
+			}
+		</style>
+
+		<script>
+			(function(){
+
+				var bgEffecter = function( myItemsNum ){
+					this.items = new Array();
+					this.itemsLim = myItemsNum;
+				
+					this.canv = document.createElement("canvas");
+					document.body.appendChild( this.canv )
+					this.cc = this.canv.getContext('2d')
+					this.cc.globalCompositeOperation = "lighter";
+
+					var that = this;
+					window.addEventListener( "resize", function(){ that.setSize.apply(that) }, false )
+
+					this.setSize();
+
+					for( var i=0; i<myItemsNum; i++ ){
+						this.addItem();
+					}
+
+					this.drow();
+				};
+				bgEffecter.prototype = {
+					canv: null,
+					cc: null,
+					items: null,
+					itemsLim: 0,
+
+					generateChannel: function(){
+						//return Math.ceil(Math.random() * 255);
+						return 255;
+					},
+					addItem: function(){
+						var tempItem = {};
+
+						tempItem.scale = Math.random() * 10;
+						tempItem.moveX = Math.random() * this.canv.width;
+						tempItem.moveY = Math.random() * this.canv.height;
+						tempItem.color = "" +  this.generateChannel() + "," + this.generateChannel() + "," +  this.generateChannel() + "";
+						tempItem.alpha = 1;
+
+						this.items.push(tempItem);
+					},
+
+					drow: function(){
+						if( this.items.length < this.itemsLim ){
+							var newNum = Math.random() * this.itemsLim;
+							for( var i=0; i<newNum; i++ ){
+								this.addItem();
+							}
+						}
+
+						this.cc.clearRect(0,0,this.canv.width,this.canv.height);
+
+						for( var i=0; i<this.items.length; i++ ){
+							this.items[i].alpha = this.items[i].alpha - ( 0.4 * Math.random() );
+							if( this.items[i].alpha < 0 ){
+								this.items.splice(i,1);
+								i -= 1;
+								continue;
+							}
+
+							this.cc.translate( this.items[i].moveX, this.items[i].moveY );
+							this.cc.scale( this.items[i].scale, this.items[i].scale );
+
+							this.cc.beginPath();
+							this.cc.arc( 10,  0, 5, Math.PI / 2, Math.PI, false );
+							this.cc.arc(  0,  0, 5, 0, Math.PI / 2, false );
+							this.cc.arc(  0, 10, 5, Math.PI / -2, 0, false );
+							this.cc.arc( 10, 10, 5, Math.PI, 3 * Math.PI / 2, false );
+
+							//var gradient = this.cc.createRadialGradient(5,5,1,5,5,5);
+							//gradient.addColorStop(   0, "rgb(" + this.items[i].color + ")");
+							//gradient.addColorStop( 0.2, "rgb(" + this.items[i].color + ")");
+							//gradient.addColorStop( 1, "rgba(255,255,255,1)");
+							//this.cc.fillStyle = gradient;
+
+							this.cc.fillStyle = "rgba(" + this.items[i].color + "," + this.items[i].alpha  + ")";
+
+							this.cc.shadowBlur = 100;
+							this.cc.shadowColor = "rgba(" + this.items[i].color + "," + this.items[i].alpha + ")";
+
+							this.cc.fill();
+
+							this.cc.scale( 1 / this.items[i].scale, 1 / this.items[i].scale );
+							this.cc.translate( -1 * this.items[i].moveX, -1 * this.items[i].moveY );
+						}
+
+
+						var that = this;
+						setTimeout( function(){that.drow.apply(that)}, 80 );
+					},
+					setSize: function(){
+						this.canv.width = window.innerWidth;
+						this.canv.height = window.innerHeight;
+					}
+				}
+
+				window.onload = function(){
+					new bgEffecter( 10 );
+				}
+			})();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
