@@ -1,0 +1,76 @@
+<!DOVTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>studies | 20101108_01</title>
+
+		<script>
+			function getElapsedDays( myStartDate ){
+				var elapsedDays = (new Date()).getTime() - myStartDate.getTime();
+				elapsedDays = Math.floor( elapsedDays / 86400000 /* ( 24 * 60 * 60 * 1000 ) */ );
+				return elapsedDays;
+			}
+			function writeElapsedDays( myStartDate ){
+				document.write( getElapsedDays( myStartDate ) );
+			}
+		</script>
+
+		<style>
+			@font-face {
+				font-family: 'mplus-2p-light';
+				/* src: url('common/font/mplus-2p-light.eot'); */
+				src: local('hide from IE'), url('common/font/mplus-2p-light.ttf') format('truetype');
+			}
+			@font-face {
+				font-family: 'mplus-2p-bold';
+				/* src: url('common/font/mplus-2p-bold.eot') */;
+				src: local('hide from IE'), url('common/font/mplus-2p-bold.ttf') format('truetype');
+			}
+
+			body {
+				margin: 0; padding: 40px;
+				background: #333;
+				background: -moz-linear-gradient(top, #d6fcea, #ffffdc) fixed;
+				background: -webkit-gradient(linear, left top, left bottom, from(#d6fcea), to(#ffffdc)) fixed;
+			}
+			h1 {
+				font-family: 'mplus-2p-bold';
+				font-size: 36pt;
+				text-shadow: 0px 0px 15px #fff, 0px 0px 15px #fff;
+				color: #6c0;
+				cursor: crosshair;
+
+				transition: all 200ms linear;
+				-moz-transition: all 200ms linear;
+				-webkit-transition: all 200ms linear;
+			}
+			h1:hover {
+				color: #fff;
+			}
+
+			p.info {
+				position: absolute;
+				right: 20px; bottom: 20px;
+
+				font-family: 'mplus-2p-light';
+				font-size: 10pt;
+				color: #999;
+			}
+			p.info a {
+				color: #6c0;
+				text-shadow: 0px 0px 3px rgba(0,0,0,0.2);
+
+				transition: all 200ms linear;
+				-moz-transition: all 200ms linear;
+				-webkit-transition: all 200ms linear;
+			}
+			p.info a:hover {
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>タバコ休止期間、<script>writeElapsedDays( new Date(2010,9,30) )</script>日経過。</h1>
+		<p class="info">謝辞：<a href="http://mplus-fonts.sourceforge.jp/">M+ FONTS</a>を利用しています。</p>
+	</body>
+</html>
